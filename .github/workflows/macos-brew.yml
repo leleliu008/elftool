@@ -68,7 +68,9 @@ jobs:
       - run:  ./elftool -h
       - run:  ./elftool -V
 
-      - run:  ./elftool print-interpreter elftool
-      - run:  ./elftool print-soname elftool
-      - run:  ./elftool print-needed elftool
-      - run:  ./elftool print-rpath  elftool
+      - run:  curl -LO https://github.com/leleliu008/test/releases/download/2023.10.08/typos-linux-glibc-x86_64
+
+      - run:  ./elftool print-interpreter typos-linux-glibc-x86_64
+      - run:  ./elftool print-soname typos-linux-glibc-x86_64
+      - run:  ./elftool print-needed typos-linux-glibc-x86_64
+      - run:  ./elftool print-rpath  typos-linux-glibc-x86_64
