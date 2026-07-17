@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@main
 
       - run: dnf -y update
-      - run: dnf -y install gcc libelf-devel
+      - run: dnf -y install gcc elfutils-libelf
 
       - uses: actions/checkout@main
 

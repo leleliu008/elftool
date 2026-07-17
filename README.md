@@ -5,7 +5,7 @@ A command-line tool to manipulate ELF files based on [libelf](https://github.com
 ## Build elftool directly using C Compiler
 
 ```bash
-cc src/*.c -o elftool -lelf -I libelf/include -L libelf/lib
+cc src/*.c -o elftool -lelf -I/usr/local/include -L/usr/local/lib -Wl,-rpath,/usr/local/lib
 ```
 
 ## Build elftool via [ppkg](https://github.com/leleliu008/ppkg)
@@ -33,12 +33,6 @@ brew install libelf
 ```
 
 ## install dependencies via your system's package manager
-
-|dependency|required?|purpose|
-|----|---------|-------|
-|[GCC](https://gcc.gnu.org/) or [Clang](https://clang.llvm.org/)|required|for compiling C source code|
-||||
-|[libelf](https://github.com/Distrotech/libelf)|required|for manipulating ELF files|
 
 **[Ubuntu](https://ubuntu.com/)**
 
