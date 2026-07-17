@@ -22,6 +22,9 @@ jobs:
 
       - uses: actions/checkout@main
 
+      - run:  brew --prefix libelf
+      - run:  ls $(brew --prefix libelf)
+
       - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf -I "$(brew --prefix libelf)/include" -L "$(brew --prefix libelf)/lib"
 
       - run:  ./elftool

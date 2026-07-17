@@ -34,14 +34,14 @@ brew install libelf
 
 ## install dependencies via your system's package manager
 
-**[Ubuntu](https://ubuntu.com/)**
+**[Ubuntu](https://ubuntu.com/) | [Debian GNU/Linux](https://www.debian.org/) | [LinuxMint](https://linuxmint.com/)**
 
 ```bash
 apt -y update
 apt -y install gcc libelf-dev
 ```
 
-**[Fedora](https://getfedora.org/)**
+**[Fedora](https://getfedora.org/) | [CentOS](https://www.centos.org/) | [Rocky Linux](https://rockylinux.org/)**
 
 ```bash
 dnf -y update
@@ -59,14 +59,14 @@ pacman -S     --noconfirm gcc libelf
 
 ```bash
 apk update
-apk add gcc libc-dev libelf-dev
+apk add gcc libc-dev elfutils-dev
 ```
 
 **[VoidLinux](https://voidlinux.org/)**
 
 ```bash
 xbps-install -Suy xbps
-xbps-install -Suy gcc libelf-devel
+xbps-install -Suy gcc elfutils-devel
 ```
 
 **[Gentoo Linux](https://www.gentoo.org/)**

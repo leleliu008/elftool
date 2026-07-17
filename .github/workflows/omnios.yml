@@ -32,7 +32,7 @@ jobs:
             run pfexec pkg refresh
             run pfexec pkg install gcc14
 
-            run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+            run gcc src/*.c -o elftool -Os -flto -Wl,-s -lelf
 
             run ./elftool
 
