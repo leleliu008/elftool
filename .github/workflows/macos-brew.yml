@@ -37,10 +37,12 @@ jobs:
       - run:  ./elftool -h
       - run:  ./elftool -V
 
-      - run:  ./elftool print-interpreter elftool
-      - run:  ./elftool print-soname elftool
-      - run:  ./elftool print-needed elftool
-      - run:  ./elftool print-rpath  elftool
+      - run:  curl -LO https://github.com/leleliu008/test/releases/download/2023.10.08/typos-linux-glibc-x86_64
+
+      - run:  ./elftool print-interpreter typos-linux-glibc-x86_64
+      - run:  ./elftool print-soname typos-linux-glibc-x86_64
+      - run:  ./elftool print-needed typos-linux-glibc-x86_64
+      - run:  ./elftool print-rpath  typos-linux-glibc-x86_64
 
 
   brew-sanitizer:
@@ -58,7 +60,7 @@ jobs:
       - uses: actions/checkout@main
 
       - run:  |
-          "$(brew --prefix llvm)/bin/clang" src/*.c -o elftool -g -lelf "$(brew --prefix libelf)/include" "$(brew --prefix libelf)/lib"
+          "$(brew --prefix llvm)/bin/clang" src/*.c -o elftool -g -lelf -I "$(brew --prefix libelf)/include" -I "$(brew --prefix libelf)/include/libelf" -L "$(brew --prefix libelf)/lib"
 
       - run:  ./elftool
 
