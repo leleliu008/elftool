@@ -82,9 +82,24 @@ zypper update  -y
 zypper install -y gcc libelf-devel
 ```
 
-**[FreeBSD](https://www.freebsd.org/)**
+**[OmniOS](https://omnios.org/)**
 
 ```bash
+pkg refresh
+pkg install gcc14
+```
+
+**[MidnightBSD](https://www.midnightbsd.org/)**
+
+```bash
+mport index
+mport install libelf
+```
+
+**[FreeBSD](https://www.freebsd.org/) | [DragonFly BSD](https://www.dragonflybsd.org/)**
+
+```bash
+pkg update
 pkg install -y libelf
 ```
 
