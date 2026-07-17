@@ -1,103 +1,6 @@
 # elftool
 
-A command-line tool to manipulate ELF files based on [libelf](https://github.com/Distrotech/libelf)
-
-## Build elftool directly using C Compiler
-
-**step1. install `C Compiler` and [libelf](https://github.com/Distrotech/libelf) via your system's package manager:**
-
-- [Ubuntu](https://ubuntu.com/) | [Debian GNU/Linux](https://www.debian.org/) | [LinuxMint](https://linuxmint.com/)
-
-    ```bash
-    apt -y update
-    apt -y install gcc libelf-dev
-    ```
-
-- [Fedora](https://getfedora.org/) | [CentOS](https://www.centos.org/) | [Rocky Linux](https://rockylinux.org/)
-
-    ```bash
-    dnf -y update
-    dnf -y install gcc elfutils-libelf-devel
-    ```
-
-- [ArchLinux](https://archlinux.org/)
-
-    ```bash
-    pacman -Syyuu --noconfirm
-    pacman -S     --noconfirm gcc libelf
-    ```
-
-- [AlpineLinux](https://www.alpinelinux.org/)
-
-    ```bash
-    apk update
-    apk add gcc libc-dev elfutils-dev
-    ```
-
-- [VoidLinux](https://voidlinux.org/)
-
-    ```bash
-    xbps-install -Suy xbps
-    xbps-install -Suy gcc elfutils-devel
-    ```
-
-- [Gentoo Linux](https://www.gentoo.org/)
-
-    ```bash
-    emerge gcc dev-libs/libelf
-    ```
-
-- [openSUSE](https://www.opensuse.org/)
-
-    ```bash
-    zypper update  -y  
-    zypper install -y gcc libelf-devel
-    ```
-
-- [OmniOS](https://omnios.org/)
-
-    ```bash
-    pkg refresh
-    pkg install gcc14
-    ```
-
-- [MidnightBSD](https://www.midnightbsd.org/)
-
-    ```bash
-    mport index
-    mport install libelf
-    ```
-
-- [FreeBSD](https://www.freebsd.org/) | [DragonFly BSD](https://www.dragonflybsd.org/)
-
-    ```bash
-    pkg update
-    pkg install -y libelf
-    ```
-
-- [OpenBSD](https://www.openbsd.org/)
-
-    ```bash
-    pkg_add libelf
-    ```
-
-- [NetBSD](https://www.netbsd.org/)
-
-    ```bash
-    pkgin -y install libelf
-    ```
-
-- macOS + [HomeBrew](https://brew.sh/)
-
-    ```bash
-    brew install libelf
-    ```
-
-**step2. build elftool:**
-
-```bash
-cc src/*.c -o elftool -lelf -I/usr/local/include -L/usr/local/lib -Wl,-rpath,/usr/local/lib
-```
+A command-line tool to manipulate ELF files.
 
 ## Build elftool via [ppkg](https://github.com/leleliu008/ppkg)
 
@@ -116,6 +19,14 @@ xcpkg install elftool
 ```bash
 ndk-pkg install elftool
 ```
+
+## Build elftool via [./build.sh](https://github.com/leleliu008/elftool/blob/master/build.sh)
+
+`./build.sh` accepts any compiler options. If no compiler options are given, `-std=gnu99 -Os -flto -Wl,-s -o elftool` will be passed to the C Compiler.
+
+`./build.sh` will install [gcc](https://gcc.gnu.org/) and [libelf](https://github.com/Distrotech/libelf) via your system's package manager.
+
+`./build.sh` has handled these operating systems: [Debian GNU/Linux](https://www.debian.org/), [Ubuntu](https://ubuntu.com/), [LinuxMint](https://linuxmint.com/), [Fedora](https://getfedora.org/), [CentOS](https://www.centos.org/), [Rocky Linux](https://rockylinux.org/), [AlmaLinux](https://almalinux.org/), [ArchLinux](https://archlinux.org/), [Manjaro Linux](https://manjaro.org/), [AlpineLinux](https://www.alpinelinux.org/), [VoidLinux](https://voidlinux.org/), [Gentoo Linux](https://www.gentoo.org/), [openSUSE](https://www.opensuse.org/), [MidnightBSD](https://www.midnightbsd.org/), [DragonFly BSD](https://www.dragonflybsd.org/), [FreeBSD](https://www.freebsd.org/), [OpenBSD](https://www.openbsd.org/), [NetBSD](https://www.netbsd.org/), [OmniOS](https://omnios.org/), macOS + [HomeBrew](https://brew.sh/)
 
 ## elftool command usage
 
@@ -142,7 +53,7 @@ ndk-pkg install elftool
 - **print the soname of the given ELF file**
 
     ```bash
-    elftool print-soname /usr/bin/ls
+    elftool print-soname /usr/lib64/ld-linux-x86-64.so.2
     ```
 
 - **print all needed dynamic libraries of the given ELF file**
