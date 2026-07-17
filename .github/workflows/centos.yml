@@ -16,7 +16,7 @@ jobs:
       - run: sed -i -e 's|#baseurl=|baseurl=|g' -e 's|mirrorlist=|#mirrorlist=|g' -e 's|mirror|vault|g' -e 's|http:|https:|g' /etc/yum.repos.d/CentOS-*.repo
 
       - run: dnf -y update
-      - run: dnf -y install curl xz gcc elfutils-libelf
+      - run: dnf -y install curl xz gcc elfutils-libelf-devel
 
       - uses: actions/checkout@main
 

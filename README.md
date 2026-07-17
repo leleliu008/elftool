@@ -45,7 +45,7 @@ apt -y install gcc libelf-dev
 
 ```bash
 dnf -y update
-dnf -y install gcc libelf-devel
+dnf -y install gcc elfutils-libelf-devel
 ```
 
 **[ArchLinux](https://archlinux.org/)**
@@ -58,6 +58,7 @@ pacman -S     --noconfirm gcc libelf
 **[AlpineLinux](https://www.alpinelinux.org/)**
 
 ```bash
+apk update
 apk add gcc libc-dev libelf-dev
 ```
 
@@ -84,19 +85,19 @@ zypper install -y gcc libelf-devel
 **[FreeBSD](https://www.freebsd.org/)**
 
 ```bash
-pkg install -y gcc libelf
+pkg install -y libelf
 ```
 
 **[OpenBSD](https://www.openbsd.org/)**
 
 ```bash
-pkg_add llvm libelf
+pkg_add libelf
 ```
 
 **[NetBSD](https://www.netbsd.org/)**
 
 ```bash
-pkgin -y install clang libelf
+pkgin -y install libelf
 ```
 
 ## elftool command usage

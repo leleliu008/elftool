@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag: [41, 40, 39, 38, 37]
+        tag: [44, 43, 42, 41, 40, 39, 38, 37]
 
     container: fedora:${{ matrix.tag }}
 
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@main
 
       - run: dnf -y update
-      - run: dnf -y install gcc elfutils-libelf
+      - run: dnf -y install gcc elfutils-libelf-devel
 
       - run: find / -name 'gelf.h'
 

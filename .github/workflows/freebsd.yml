@@ -29,7 +29,7 @@ jobs:
               eval "$@"
             }
 
-            run sudo pkg update
+            #run sudo pkg update
             run sudo pkg install -y libelf
 
             run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf

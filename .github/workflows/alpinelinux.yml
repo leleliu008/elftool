@@ -20,7 +20,7 @@ jobs:
     steps:
       - run: df -h
       - run: apk update
-      - run: apk add gcc libc-dev libelf
+      - run: apk add gcc libc-dev libelf-dev
 
       - uses: actions/checkout@main
 
