@@ -1,3 +1,2 @@
 [default.extend-words]
-gir = "gir"
-flate = "flate"
+mport = "mport"
