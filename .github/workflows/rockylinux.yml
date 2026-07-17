@@ -2,9 +2,9 @@ name: Rocky Linux
 
 on:
   push:
-    branches: [ 0.15.4, dev ]
+    branches: [ master, dev ]
   pull_request:
-    branches: [ 0.15.4, dev ]
+    branches: [ master, dev ]
 
 jobs:
   test:

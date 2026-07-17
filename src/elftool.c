@@ -17,7 +17,7 @@ typedef struct {
 int main(int argc, char* argv[]) {
     if (argc == 1) {
         elftool_print_help();
-        return ELFTOOL_ERROR;
+        return ELFTOOL_OK;
     }
 
     if (argv[1][0] == '\0') {

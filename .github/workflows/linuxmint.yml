@@ -2,9 +2,9 @@ name: LinuxMint
 
 on:
   push:
-    branches: [ 0.15.4 ]
+    branches: [ master ]
   pull_request:
-    branches: [ 0.15.4 ]
+    branches: [ master ]
 
 jobs:
   test:
