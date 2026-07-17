@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - run: zypper update  -y
-      - run: zypper install -y gcc libelf-devel
+      - run: zypper install -y curl tar gzip gcc libelf-devel
 
       - uses: actions/checkout@main
 

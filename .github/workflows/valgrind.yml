@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - run:  apt -y update
-      - run:  apt -y install valgrind gcc libelf
+      - run:  apt -y install valgrind gcc libelf-dev
 
       - uses: actions/checkout@main
 

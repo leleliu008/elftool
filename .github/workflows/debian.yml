@@ -22,7 +22,7 @@ jobs:
       - run:  ls -l /sbin/
 
       - run:  apt -y update
-      - run:  apt -y install curl xz-utils gcc libelf
+      - run:  apt -y install curl xz-utils gcc libelf-dev
 
       - uses: actions/checkout@main
 

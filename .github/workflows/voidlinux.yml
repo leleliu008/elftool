@@ -23,8 +23,9 @@ jobs:
       - run: sed -i s/alpha.de.repo.voidlinux.org/repo-default.voidlinux.org/g /usr/share/xbps.d/*
 
       - run: xbps-install -Suy xbps
-      - run: xbps-install -Suy ca-certificates
       - run: xbps-install -Suy gcc libelf
+
+      - run: find / -name 'gelf.h'
 
       # https://github.com/actions/checkout/issues/334
       - uses: actions/checkout@v1

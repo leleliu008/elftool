@@ -22,7 +22,7 @@ jobs:
 
       - run: ./ppkg setup
       - run: ./ppkg update
-      - run: ./ppkg formula-set git-sha ${{github.sha}}
+      - run: ./ppkg formula-set elftool git-sha ${{github.sha}}
       - run: ./ppkg install elftool
 
       - run: ln -s ~/.ppkg/installed/*/elftool/bin/elftool .

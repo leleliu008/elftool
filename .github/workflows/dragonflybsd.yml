@@ -34,7 +34,7 @@ jobs:
 
             run find / -name 'gelf.h'
 
-            run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf -I /usr/local/include -L /usr/local/lib -Wl,-rpath,/usr/local/lib
+            run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf -I /usr/local/include/libelf -L /usr/local/lib -Wl,-rpath,/usr/local/lib
 
             run ./elftool
 
