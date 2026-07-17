@@ -1,0 +1,49 @@
+name: NetBSD
+
+on:
+  push:
+    branches: [ 0.15.4 ]
+  pull_request:
+    branches: [ 0.15.4 ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        netbsd-version: ['10.1', '10.0', '9.4', '9.3', '9.2']
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - run: curl -LO https://curl.se/ca/cacert.pem
+
+      - uses: cross-platform-actions/action@master
+        with:
+          operating_system: netbsd
+          version: ${{ matrix.netbsd-version }}
+          shell: bash
+          run: |
+            run() {
+              printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
+              eval "$@"
+            }
+
+            run sudo pkgin -y install libelf
+
+            run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+
+            run ./elftool
+
+            run ./elftool --help
+            run ./elftool --version
+
+            run ./elftool -h
+            run ./elftool -V
+
+            run ./elftool print-interpreter elftool
+            run ./elftool print-soname elftool
+            run ./elftool print-needed elftool
+            run ./elftool print-rpath  elftool

@@ -1,0 +1,40 @@
+name: LinuxMint
+
+on:
+  push:
+    branches: [ 0.15.4 ]
+  pull_request:
+    branches: [ 0.15.4 ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: [21.2, 20.1]
+
+    container: linuxmintd/mint${{ matrix.tag }}-amd64
+
+    steps:
+      - run:  id
+      - run:  sudo apt -y update
+      - run:  sudo apt -y install curl xz-utils gcc
+
+      - uses: actions/checkout@main
+
+      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+
+      - run:  ./elftool
+
+      - run:  ./elftool --help
+      - run:  ./elftool --version
+
+      - run:  ./elftool -h
+      - run:  ./elftool -V
+
+      - run:  ./elftool print-interpreter elftool
+      - run:  ./elftool print-soname elftool
+      - run:  ./elftool print-needed elftool
+      - run:  ./elftool print-rpath  elftool

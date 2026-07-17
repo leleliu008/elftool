@@ -1,0 +1,41 @@
+name: Fedora
+
+on:
+  push:
+    branches: [ 0.15.4 ]
+  pull_request:
+    branches: [ 0.15.4 ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: [41, 40, 39, 38, 37]
+
+    container: fedora:${{ matrix.tag }}
+
+    steps:
+      - uses: actions/checkout@main
+
+      - run: dnf -y update
+      - run: dnf -y install gcc libelf-devel
+
+      - uses: actions/checkout@main
+
+      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+
+      - run:  ./elftool
+
+      - run:  ./elftool --help
+      - run:  ./elftool --version
+
+      - run:  ./elftool -h
+      - run:  ./elftool -V
+
+      - run:  ./elftool print-interpreter elftool
+      - run:  ./elftool print-soname elftool
+      - run:  ./elftool print-needed elftool
+      - run:  ./elftool print-rpath  elftool

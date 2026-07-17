@@ -1,0 +1,42 @@
+name: Debian GNU/Linux
+
+on:
+  push:
+    branches: [ 0.15.4 ]
+  pull_request:
+    branches: [ 0.15.4 ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: [11, 12, 13]
+
+    container: debian:${{ matrix.tag }}
+
+    steps:
+      - run:  id
+      - run:  ls -l /sbin/
+
+      - run:  apt -y update
+      - run:  apt -y install curl xz-utils gcc libelf
+
+      - uses: actions/checkout@main
+
+      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+
+      - run:  ./elftool
+
+      - run:  ./elftool --help
+      - run:  ./elftool --version
+
+      - run:  ./elftool -h
+      - run:  ./elftool -V
+
+      - run:  ./elftool print-interpreter elftool
+      - run:  ./elftool print-soname elftool
+      - run:  ./elftool print-needed elftool
+      - run:  ./elftool print-rpath  elftool

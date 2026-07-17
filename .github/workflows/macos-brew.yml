@@ -1,0 +1,68 @@
+name: build with brew on macOS
+
+on:
+  push:
+    branches: [ 0.15.4 ]
+  pull_request:
+    branches: [ 0.15.4 ]
+
+jobs:
+
+  brew:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, macos-26, macos-15]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - run:  brew update
+      - run:  brew install libelf
+
+      - uses: actions/checkout@main
+
+      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf "$(brew --prefix libelf)/include" "$(brew --prefix libelf)/lib"
+
+      - run:  ./elftool
+
+      - run:  ./elftool --help
+      - run:  ./elftool --version
+
+      - run:  ./elftool -h
+      - run:  ./elftool -V
+
+      - run:  ./elftool print-interpreter elftool
+      - run:  ./elftool print-soname elftool
+      - run:  ./elftool print-needed elftool
+      - run:  ./elftool print-rpath  elftool
+
+
+  brew-sanitizer:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, macos-26, macos-15]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - run:  brew update
+      - run:  brew install libelf llvm
+
+      - uses: actions/checkout@main
+
+      - run:  "$(brew --prefix llvm)/bin/clang" src/*.c -o elftool -g -lelf "$(brew --prefix libelf)/include" "$(brew --prefix libelf)/lib"
+
+      - run:  ./elftool
+
+      - run:  ./elftool --help
+      - run:  ./elftool --version
+
+      - run:  ./elftool -h
+      - run:  ./elftool -V
+
+      - run:  ./elftool print-interpreter elftool
+      - run:  ./elftool print-soname elftool
+      - run:  ./elftool print-needed elftool
+      - run:  ./elftool print-rpath  elftool

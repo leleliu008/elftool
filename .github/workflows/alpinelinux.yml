@@ -1,0 +1,40 @@
+name: alpinelinux
+
+on:
+  push:
+    branches: [ 0.15.4 ]
+  pull_request:
+    branches: [ 0.15.4 ]
+
+jobs:
+  alpinelinux:
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: ['3.24', '3.23', '3.22', '3.21', '3.20', '3.19','3.18']
+
+    runs-on: ubuntu-latest
+
+    container: alpine:${{ matrix.tag }}
+
+    steps:
+      - run: df -h
+      - run: apk update
+      - run: apk add gcc libc-dev libelf-dev
+
+      - uses: actions/checkout@main
+
+      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+
+      - run:  ./elftool
+
+      - run:  ./elftool --help
+      - run:  ./elftool --version
+
+      - run:  ./elftool -h
+      - run:  ./elftool -V
+
+      - run:  ./elftool print-interpreter elftool
+      - run:  ./elftool print-soname elftool
+      - run:  ./elftool print-needed elftool
+      - run:  ./elftool print-rpath  elftool

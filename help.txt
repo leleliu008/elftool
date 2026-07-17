@@ -1,0 +1,24 @@
+[0;32mA command-line tool to manipulate ELF files.[0m
+
+[0;32melftool <ACTION> [ARGUMENT...][0m
+
+[0;32melftool --help[0m
+[0;32melftool -h[0m
+    show help of this command.
+
+[0;32melftool --version[0m
+[0;32melftool -V[0m
+    show version of this command.
+
+[0;32melftool print-interpreter <FILEPATH>[0m
+    print the interpreter of the given ELF file.
+
+[0;32melftool print-soname <FILEPATH>[0m
+    print the soname of the given ELF file.
+
+[0;32melftool print-needed <FILEPATH>[0m
+    print all needed dynamic libraries of the given ELF file.
+
+[0;32melftool print-rpath <FILEPATH>[0m
+    print all RUNPATH encoded in the given ELF file.
+

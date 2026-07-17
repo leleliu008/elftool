@@ -1,0 +1,48 @@
+name: MidnightBSD
+
+on:
+  push:
+    branches: [ master, dev, tmp ]
+  pull_request:
+    branches: [ master, dev, tmp ]
+
+jobs:
+  midnightbsd:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        midnightbsd-version: ['4.0.4']
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: cross-platform-actions/action@master
+        with:
+          operating_system: midnightbsd
+          version: ${{ matrix.midnightbsd-version }}
+          shell: bash
+          run: |
+            run() {
+              printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
+              eval "$@"
+            }
+
+            run sudo mport index
+            run sudo mport install libelf || true
+
+            run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+
+            run ./elftool
+
+            run ./elftool --help
+            run ./elftool --version
+
+            run ./elftool -h
+            run ./elftool -V
+
+            run ./elftool print-interpreter elftool
+            run ./elftool print-soname elftool
+            run ./elftool print-needed elftool
+            run ./elftool print-rpath  elftool

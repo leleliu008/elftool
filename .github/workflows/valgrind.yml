@@ -1,0 +1,38 @@
+name: valgrind
+
+on:
+  push:
+    branches: [ 0.15.4 ]
+  pull_request:
+    branches: [ 0.15.4 ]
+
+jobs:
+  valgrind:
+
+    runs-on: ubuntu-latest
+
+    container: ubuntu:24.04
+
+    env:
+      VALGRIND: valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --error-exitcode=1
+
+    steps:
+      - run:  apt -y update
+      - run:  apt -y install valgrind gcc libelf
+
+      - uses: actions/checkout@main
+
+      - run:  cc src/*.c -o elftool -g -lelf
+
+      - run:  $VALGRIND ./elftool
+
+      - run:  $VALGRIND ./elftool --help
+      - run:  $VALGRIND ./elftool --version
+
+      - run:  $VALGRIND ./elftool -h
+      - run:  $VALGRIND ./elftool -V
+
+      - run:  $VALGRIND ./elftool print-interpreter elftool
+      - run:  $VALGRIND ./elftool print-soname elftool
+      - run:  $VALGRIND ./elftool print-needed elftool
+      - run:  $VALGRIND ./elftool print-rpath  elftool

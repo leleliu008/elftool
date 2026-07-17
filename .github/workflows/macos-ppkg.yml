@@ -1,0 +1,40 @@
+name: build with ppkg on macOS
+
+on:
+  push:
+    branches: [ 0.15.4 ]
+  pull_request:
+    branches: [ 0.15.4 ]
+
+jobs:
+  ppkg:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, macos-26, macos-15]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - run:  curl -LO https://raw.githubusercontent.com/leleliu008/ppkg/master/ppkg
+      - run:  chmod a+x ppkg
+      - run:  ./ppkg setup
+      - run:  ./ppkg update
+      - run:  ./ppkg formula-set git-sha ${{ github.sha }}
+      - run:  ./ppkg install elftool
+
+      - run: ln -s ~/.ppkg/installed/macos-*/elftool/bin/elftool .
+
+      - run:  ./elftool
+
+      - run:  ./elftool --help
+      - run:  ./elftool --version
+
+      - run:  ./elftool -h
+      - run:  ./elftool -V
+
+      - run:  ./elftool print-interpreter elftool
+      - run:  ./elftool print-soname elftool
+      - run:  ./elftool print-needed elftool
+      - run:  ./elftool print-rpath  elftool

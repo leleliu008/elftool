@@ -1,0 +1,45 @@
+name: voidlinux
+
+on:
+  push:
+    branches: [ 0.15.4 ]
+  pull_request:
+    branches: [ 0.15.4 ]
+
+jobs:
+  voidlinux:
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: ['voidlinux', 'voidlinux-musl']
+
+    runs-on: ubuntu-latest
+
+    container: voidlinux/${{ matrix.variant }}
+
+    steps:
+      # SSL certificate subject doesn't match host alpha.de.repo.voidlinux.org
+      # ERROR: [reposync] failed to fetch file `https://alpha.de.repo.voidlinux.org/current/x86_64-repodata': Operation not permitted
+      - run: sed -i s/alpha.de.repo.voidlinux.org/repo-default.voidlinux.org/g /usr/share/xbps.d/*
+
+      - run: xbps-install -Suy xbps
+      - run: xbps-install -Suy ca-certificates
+      - run: xbps-install -Suy gcc libelf
+
+      # https://github.com/actions/checkout/issues/334
+      - uses: actions/checkout@v1
+
+      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+
+      - run:  ./elftool
+
+      - run:  ./elftool --help
+      - run:  ./elftool --version
+
+      - run:  ./elftool -h
+      - run:  ./elftool -V
+
+      - run:  ./elftool print-interpreter elftool
+      - run:  ./elftool print-soname elftool
+      - run:  ./elftool print-needed elftool
+      - run:  ./elftool print-rpath  elftool
