@@ -2,4 +2,6 @@
 
 set -ex
 
-exec ${CC:-cc} $CPPFLAGS ${CFLAGS:--std=gnu99 -Os} ${LDFLAGS:--flto -Wl,-s} src/*.c -lelf "$@"
+unset IFS
+
+exec ${CC:-cc} $CPPFLAGS ${CFLAGS:--std=gnu99 -Os} ${LDFLAGS:--flto -Wl,-s} -o elftool src/*.c -lelf "$@"
