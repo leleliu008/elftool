@@ -27,7 +27,7 @@ jobs:
       - run:  ls $(brew --prefix libelf)/include
       - run:  ls $(brew --prefix libelf)/lib
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf -I "$(brew --prefix libelf)/include/libelf" -L "$(brew --prefix libelf)/lib"
+      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf -I "$(brew --prefix libelf)/include" -I "$(brew --prefix libelf)/include/libelf" -L "$(brew --prefix libelf)/lib"
 
       - run:  ./elftool
 
