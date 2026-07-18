@@ -2,23 +2,20 @@ name: Manjaro Linux
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, dev, tmp ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, dev, tmp ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    
     container: manjarolinux/base
 
     steps:
-      - run: pacman -Syyuu --noconfirm
-      - run: pacman -S     --noconfirm gcc libelf
-
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 

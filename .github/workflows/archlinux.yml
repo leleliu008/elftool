@@ -14,12 +14,9 @@ jobs:
     container: archlinux
 
     steps:
-      - run: pacman -Syyuu --noconfirm
-      - run: pacman -S     --noconfirm gcc libelf
-
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 
