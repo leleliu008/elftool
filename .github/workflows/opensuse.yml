@@ -19,11 +19,11 @@ jobs:
 
     steps:
       - run: zypper update  -y
-      - run: zypper install -y curl tar gzip gcc libelf-devel
+      - run: zypper install -y curl tar gzip
 
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 

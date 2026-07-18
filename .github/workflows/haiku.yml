@@ -29,12 +29,7 @@ jobs:
               eval "$@"
             }
 
-            run pkgman refresh
-            run pkgman install -y gcc libelf
-
-            run find / -name 'gelf.h'
-
-            run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+            run ./build.sh
 
             run ./elftool
 

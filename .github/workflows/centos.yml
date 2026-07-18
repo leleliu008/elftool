@@ -16,11 +16,11 @@ jobs:
       - run: sed -i -e 's|#baseurl=|baseurl=|g' -e 's|mirrorlist=|#mirrorlist=|g' -e 's|mirror|vault|g' -e 's|http:|https:|g' /etc/yum.repos.d/CentOS-*.repo
 
       - run: dnf -y update
-      - run: dnf -y install curl xz gcc elfutils-libelf-devel
+      - run: dnf -y install curl xz
 
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 
@@ -45,11 +45,11 @@ jobs:
 
     steps:
       - run:  yum -y update
-      - run:  yum -y install curl xz gcc
+      - run:  yum -y install curl xz
 
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 
@@ -80,11 +80,11 @@ jobs:
           sed -i 's|http:|https:|g'             /etc/yum.repos.d/CentOS-Base.repo
 
           yum -y update
-          yum -y install curl xz gcc
+          yum -y install curl xz
 
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 

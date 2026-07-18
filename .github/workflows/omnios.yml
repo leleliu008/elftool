@@ -29,10 +29,7 @@ jobs:
               eval "$@"
             }
 
-            run pfexec pkg refresh
-            run pfexec pkg install gcc14
-
-            run gcc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+            run ./build.sh
 
             run ./elftool
 

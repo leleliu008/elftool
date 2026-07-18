@@ -157,6 +157,11 @@ __install_packages_via_syspm_on_Darwin() {
     fi
 }
 
+__install_packages_via_syspm_on_Haiku() {
+    run $sudo pkgman refresh
+    run $sudo pkgman install -y gcc libelf
+}
+
 ###################################################
 
 unset NATIVE_PLATFORM_TYPE

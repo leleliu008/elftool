@@ -13,11 +13,9 @@ jobs:
     container: madhacking/gentoo
 
     steps:
-      - run:  emerge dev-libs/libelf
-
       - uses: actions/checkout@v5
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 

@@ -20,12 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
-      - run: dnf -y update
-      - run: dnf -y install gcc elfutils-libelf-devel
-
-      - run: find / -name 'gelf.h'
-
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 

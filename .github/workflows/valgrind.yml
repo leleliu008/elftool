@@ -18,11 +18,11 @@ jobs:
 
     steps:
       - run:  apt -y update
-      - run:  apt -y install valgrind gcc libelf-dev
+      - run:  apt -y install valgrind
 
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -g -lelf
+      - run:  ./build.sh -o elftool -g
 
       - run:  $VALGRIND ./elftool
 

@@ -18,13 +18,12 @@ jobs:
     container: linuxmintd/mint${{ matrix.tag }}-amd64
 
     steps:
-      - run:  id
       - run:  sudo apt -y update
-      - run:  sudo apt -y install curl xz-utils gcc libelf-dev
+      - run:  sudo apt -y install curl xz-utils
 
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 

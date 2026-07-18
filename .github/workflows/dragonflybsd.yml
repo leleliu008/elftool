@@ -30,11 +30,7 @@ jobs:
               eval "$@"
             }
 
-            run pkg install -y libelf
-
-            run find / -name 'gelf.h'
-
-            run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf -I /usr/local/include -I /usr/local/include/libelf -L /usr/local/lib -Wl,-rpath,/usr/local/lib
+            run ./build.sh -o elftool -Os -flto -Wl,-s -I/usr/local/include -I/usr/local/include/libelf -L/usr/local/lib -Wl,-rpath,/usr/local/lib
 
             run ./elftool
 

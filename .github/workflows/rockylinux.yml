@@ -19,14 +19,14 @@ jobs:
 
     steps:
       - run:  dnf -y update
-      - run:  dnf -y install xz gcc elfutils-libelf-devel
+      - run:  dnf -y install xz
       - run:  |
           command -v curl > /dev/null || dnf -y install curl
           # https://bugs.launchpad.net/tripleo/+bug/1953156
 
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 

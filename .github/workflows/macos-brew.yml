@@ -17,17 +17,9 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - run:  brew update
-      - run:  brew install libelf
-
       - uses: actions/checkout@main
 
-      - run:  brew --prefix libelf
-      - run:  ls $(brew --prefix libelf)
-      - run:  ls $(brew --prefix libelf)/include
-      - run:  ls $(brew --prefix libelf)/lib
-
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf -I "$(brew --prefix libelf)/include" -I "$(brew --prefix libelf)/include/libelf" -L "$(brew --prefix libelf)/lib"
+      - run:  ./build.sh -o elftool -Os -flto -Wl,-s -I "$(brew --prefix libelf)/include" -I "$(brew --prefix libelf)/include/libelf" -L "$(brew --prefix libelf)/lib"
 
       - run:  ./elftool
 

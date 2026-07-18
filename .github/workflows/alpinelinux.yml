@@ -18,13 +18,9 @@ jobs:
     container: alpine:${{ matrix.tag }}
 
     steps:
-      - run: df -h
-      - run: apk update
-      - run: apk add gcc libc-dev elfutils-dev
-
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 

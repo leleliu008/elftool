@@ -18,8 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - run: curl -LO https://curl.se/ca/cacert.pem
-
       - uses: cross-platform-actions/action@master
         with:
           operating_system: netbsd
@@ -31,9 +29,7 @@ jobs:
               eval "$@"
             }
 
-            run sudo pkgin -y install libelf
-
-            run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+            run ./build.sh
 
             run ./elftool
 

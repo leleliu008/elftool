@@ -29,9 +29,7 @@ jobs:
               eval "$@"
             }
 
-            run sudo pkg_add libelf
-
-            run cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+            run ./build.sh
 
             run ./elftool
 

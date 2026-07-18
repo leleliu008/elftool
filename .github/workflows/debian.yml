@@ -18,15 +18,12 @@ jobs:
     container: debian:${{ matrix.tag }}
 
     steps:
-      - run:  id
-      - run:  ls -l /sbin/
-
       - run:  apt -y update
-      - run:  apt -y install curl xz-utils gcc libelf-dev
+      - run:  apt -y install curl xz-utils
 
       - uses: actions/checkout@main
 
-      - run:  cc src/*.c -o elftool -Os -flto -Wl,-s -lelf
+      - run:  ./build.sh
 
       - run:  ./elftool
 
