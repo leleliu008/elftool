@@ -21,7 +21,6 @@ jobs:
       - run: /usr/bin/bsdtar xf xcpkg-0.30.0-macos-15.0-arm64.release.tar.xz --strip-components=1
 
       - run: bin/xcpkg update
-      - run: bin/xcpkg formula-set elftool git-sha ${{github.sha}}
       - run: bin/xcpkg install elftool
 
       - run: ln -s ~/.xcpkg/installed/*/elftool/bin/elftool .

@@ -44,7 +44,7 @@ __install_packages_via_syspm_on_linuxmint() {
 
 __install_packages_via_syspm_on_openEuler() {
     run $sudo dnf -y update
-    run $sudo dnf -y install gcc libelf-dev
+    run $sudo dnf -y install gcc elfutils-libelf-devel
 }
 
 __install_packages_via_syspm_on_rocky() {
