@@ -71,7 +71,7 @@ __install_packages_via_syspm_on_rhel() {
 :
 }
 
-__install_packages_via_syspm_on_opensuse_leap() {
+__install_packages_via_syspm_on_opensuse() {
     run $sudo zypper update  -y
     run $sudo zypper install -y gcc libelf-devel
 }
@@ -106,7 +106,7 @@ __install_packages_via_syspm_on_Linux() {
         .   /etc/os-release
 
         case "$ID" in
-            opensuse-*) ID="$(printf '%s\n' "$ID" | tr - _)"
+            opensuse-*) ID=opensuse
         esac
 
         __install_packages_via_syspm_on_$ID
