@@ -77,7 +77,7 @@ __install_packages_via_syspm_on_opensuse_leap() {
 }
 
 __install_packages_via_syspm_on_gentoo() {
-    run $sudo emerge sys-devel/gcc dev-libs/libelf
+    run $sudo emerge dev-libs/libelf
 }
 
 __install_packages_via_syspm_on_manjaro() {
@@ -98,16 +98,16 @@ __install_packages_via_syspm_on_void() {
 
 __install_packages_via_syspm_on_alpine() {
     run $sudo apk update
-    run $sudo apk add gcc elfutils-dev
+    run $sudo apk add gcc libc-dev elfutils-dev
 }
 
 __install_packages_via_syspm_on_Linux() {
     if [ -f /etc/os-release ] ; then
         .   /etc/os-release
 
-        if [ "$ID" = 'opensuse-leap' ] ; then
-            ID='opensuse_leap'
-        fi
+        case "$ID" in
+            opensuse-*) ID="$(printf '%s\n' "$ID" | tr - _)"
+        esac
 
         __install_packages_via_syspm_on_$ID
     fi
@@ -136,16 +136,11 @@ __install_packages_via_syspm_on_NetBSD() {
     run $sudo pkgin -y install libelf
 }
 
-__install_packages_via_syspm_on_OmniOS() {
+__install_packages_via_syspm_on_SunOS() {
     [ -n "$sudo" ] && sudo=pfexec
 
     run $sudo pkg refresh
     run $sudo pkg install gcc14
-}
-
-__install_packages_via_syspm_on_SunOS() {
-    run $sudo pkgman refresh
-    run $sudo pkgman install -y gcc libelf
 }
 
 __install_packages_via_syspm_on_Darwin() {
