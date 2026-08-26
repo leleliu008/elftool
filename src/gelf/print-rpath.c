@@ -6,7 +6,7 @@
 
 #include <gelf.h>
 
-#include "elftool.h"
+#include "../elftool.h"
 
 int elftool_print_rpath(const char * fp) {
     if (elf_version(EV_CURRENT) == EV_NONE) {

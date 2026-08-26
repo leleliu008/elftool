@@ -6,9 +6,9 @@
 
 #include <gelf.h>
 
-#include "elftool.h"
+#include "../elftool.h"
 
-int elftool_check_if_has_dynamic_section(const char * fp) {
+int elftool_print_interpreter(const char * fp) {
     if (elf_version(EV_CURRENT) == EV_NONE) {
         fprintf(stderr, "libelf initialization failed: %s\n", elf_errmsg(-1));
         return ELFTOOL_ERROR;
@@ -55,7 +55,28 @@ int elftool_check_if_has_dynamic_section(const char * fp) {
             return ELFTOOL_ERROR;
         }
 
-        if (phdr.p_type == PT_DYNAMIC) {
+        if (phdr.p_type == PT_INTERP) {
+            char interp[phdr.p_filesz];
+
+            int ret = pread(fd, interp, phdr.p_filesz, phdr.p_offset);
+
+            if (ret == -1) {
+                perror(fp);
+                elf_end(elf);
+                close(fd);
+                return ELFTOOL_ERROR;
+            }
+
+            if ((size_t)ret != phdr.p_filesz) {
+                perror(fp);
+                elf_end(elf);
+                close(fd);
+                fprintf(stderr, "not fully read.\n");
+                return ELFTOOL_ERROR;
+            }
+
+            puts(interp);
+
             elf_end(elf);
             close(fd);
             return ELFTOOL_OK;
@@ -64,7 +85,5 @@ int elftool_check_if_has_dynamic_section(const char * fp) {
 
     elf_end(elf);
     close(fd);
-
-    fprintf(stderr, "no .dynamic section in file: %s\n", fp);
-    return 200;
+    return ELFTOOL_OK;
 }

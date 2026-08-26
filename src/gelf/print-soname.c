@@ -6,9 +6,9 @@
 
 #include <gelf.h>
 
-#include "elftool.h"
+#include "../elftool.h"
 
-int elftool_print_needed(const char * fp) {
+int elftool_print_soname(const char * fp) {
     if (elf_version(EV_CURRENT) == EV_NONE) {
         fprintf(stderr, "libelf initialization failed: %s\n", elf_errmsg(-1));
         return ELFTOOL_ERROR;
@@ -121,9 +121,10 @@ int elftool_print_needed(const char * fp) {
             return ELFTOOL_ERROR;
         }
 
-        if (dyn.d_tag == DT_NEEDED) {
-            const char * needed = elf_strptr(elf, shdr.sh_link, dyn.d_un.d_val);
-            puts(needed);
+        if (dyn.d_tag == DT_SONAME) {
+            const char * soname = elf_strptr(elf, shdr.sh_link, dyn.d_un.d_val);
+            puts(soname);
+            break;
         }
     }
 

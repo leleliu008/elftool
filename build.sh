@@ -179,4 +179,11 @@ CC="$(command -v gcc || command -v clang || command -v cc)" || abort 1 "No C Com
 
 [ -z "$*" ] && set -- -std=gnu99 -Os -flto -Wl,-s -o elftool
 
-run exec "$CC" src/*.c -lelf "$@"
+TARGET_TRIPLE="$($CC -dumpmachine)"
+
+case $TARGET_TRIPLE in
+    darwin)
+        run exec "$CC" src/*.c src/gelf/*.c -lelf "$@"
+        ;;
+    *)  run exec "$CC" src/*.c src/_elf/*.c "$@"
+esac
