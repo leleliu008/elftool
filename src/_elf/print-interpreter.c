@@ -96,9 +96,10 @@ int elftool_print_interpreter(const char * fp) {
 
     ///////////////////////////////////////////////////////////
 
-    unsigned char * elf = (unsigned char *)mmap(NULL, st.st_size, PROT_READ, MAP_SHARED, fd, 0);
+    void * p = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
      
-    if (elf == NULL) {
+    if (p == MAP_FAILED) {
+        perror(fp);
         close(fd);
         return 200;
     }
@@ -107,11 +108,17 @@ int elftool_print_interpreter(const char * fp) {
 
     close(fd);
 
+    int ret;
+
     switch (a[4]) {
-        case ELFCLASS32: return handle_elf32(elf);
-        case ELFCLASS64: return handle_elf64(elf);
+        case ELFCLASS32: ret = handle_elf32(p); break;
+        case ELFCLASS64: ret = handle_elf64(p); break;
         default: 
             fprintf(stderr, "Invalid ELF file: %s\n", fp);
-            return 101;
+            ret = 101;
     }
+
+    munmap(p, st.st_size);
+
+    return ret;
 }
