@@ -11,14 +11,42 @@
 
 #define ELFTOOL_ERROR_NOT_ELF_FILE    10
 
+#ifndef ELFTOOL_VERSION_STRING
+#define ELFTOOL_VERSION_STRING "1.0.0"
+#endif
+
 int elftool_print_help();
 
-int elftool_print_interpreter(const char * fp);
+//////////////////////////////////////////
 
-int elftool_print_soname(const char * fp);
+int elftool_print_interpreter_handle_elf32(const unsigned char * elf);
+int elftool_print_interpreter_handle_elf64(const unsigned char * elf);
 
-int elftool_print_needed(const char * fp);
+int elftool_print_interpreter_handle_elf32_swap(const unsigned char * elf);
+int elftool_print_interpreter_handle_elf64_swap(const unsigned char * elf);
 
-int elftool_print_rpath(const char * fp);
+//////////////////////////////////////////
+
+int elftool_print_needed_handle_elf32(const unsigned char * elf);
+int elftool_print_needed_handle_elf64(const unsigned char * elf);
+
+int elftool_print_needed_handle_elf32_swap(const unsigned char * elf);
+int elftool_print_needed_handle_elf64_swap(const unsigned char * elf);
+
+//////////////////////////////////////////
+
+int elftool_print_soname_handle_elf32(const unsigned char * elf);
+int elftool_print_soname_handle_elf64(const unsigned char * elf);
+
+int elftool_print_soname_handle_elf32_swap(const unsigned char * elf);
+int elftool_print_soname_handle_elf64_swap(const unsigned char * elf);
+
+//////////////////////////////////////////
+
+int elftool_print_rpath_handle_elf32(const unsigned char * elf);
+int elftool_print_rpath_handle_elf64(const unsigned char * elf);
+
+int elftool_print_rpath_handle_elf32_swap(const unsigned char * elf);
+int elftool_print_rpath_handle_elf64_swap(const unsigned char * elf);
 
 #endif
