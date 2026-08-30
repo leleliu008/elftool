@@ -25,7 +25,7 @@ int elftool_print_help() {
         COLOR_OFF
         "    show version of this command.\n\n"
         COLOR_GREEN
-        "elftool print-interpreter <FILEPATH>\n"
+        "elftool print-interp <FILEPATH>\n"
         COLOR_OFF
         "    print the interpreter of the given ELF file.\n\n"
         COLOR_GREEN
@@ -53,7 +53,7 @@ int elftool_print_help() {
         "elftool --version\n"
         "elftool -V\n"
         "    show version of this command.\n\n"
-        "elftool print-interpreter <FILEPATH>\n"
+        "elftool print-interp <FILEPATH>\n"
         "    print the interpreter of the given ELF file.\n\n"
         "elftool print-soname <FILEPATH>\n"
         "    print the soname of the given ELF file.\n\n"

@@ -33,7 +33,7 @@ jobs:
 
       - run:  curl -LO https://github.com/leleliu008/test/releases/download/2023.10.08/typos-linux-glibc-x86_64
 
-      - run:  ./elftool print-interpreter typos-linux-glibc-x86_64
+      - run:  ./elftool print-interp typos-linux-glibc-x86_64
       - run:  ./elftool print-soname typos-linux-glibc-x86_64
       - run:  ./elftool print-needed typos-linux-glibc-x86_64
       - run:  ./elftool print-rpath  typos-linux-glibc-x86_64
@@ -70,7 +70,7 @@ jobs:
 
       - run:  curl -LO https://github.com/leleliu008/test/releases/download/2023.10.08/typos-linux-glibc-x86_64
 
-      - run:  ./elftool print-interpreter typos-linux-glibc-x86_64
+      - run:  ./elftool print-interp typos-linux-glibc-x86_64
       - run:  ./elftool print-soname typos-linux-glibc-x86_64
       - run:  ./elftool print-needed typos-linux-glibc-x86_64
       - run:  ./elftool print-rpath  typos-linux-glibc-x86_64
@@ -79,7 +79,7 @@ jobs:
 
       - run: tar xf xxd-*.tar.xz --strip-components=1
 
-      - run:  ./elftool print-interpreter bin/xxd
+      - run:  ./elftool print-interp bin/xxd
       - run:  ./elftool print-soname bin/xxd
       - run:  ./elftool print-needed bin/xxd
       - run:  ./elftool print-rpath  bin/xxd

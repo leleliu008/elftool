@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
     }
 
     const Action actions[] = {
-        {"print-interpreter", elftool_print_interpreter},
+        {"print-interp", elftool_print_interpreter},
         {"print-soname", elftool_print_soname},
         {"print-needed", elftool_print_needed},
         {"print-rpath",  elftool_print_rpath},

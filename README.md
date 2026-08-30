@@ -53,7 +53,7 @@ cc -o elftool -Isrc src/*.c
 - **print the interpreter of the given ELF file**
 
     ```bash
-    elftool print-interpreter /usr/bin/ls
+    elftool print-interp /usr/bin/ls
     ```
 
 - **print the soname of the given ELF file**

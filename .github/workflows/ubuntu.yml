@@ -35,7 +35,7 @@ jobs:
       - run:  ./elftool -h
       - run:  ./elftool -V
 
-      - run:  ./elftool print-interpreter elftool
+      - run:  ./elftool print-interp elftool
       - run:  ./elftool print-soname elftool
       - run:  ./elftool print-needed elftool
       - run:  ./elftool print-rpath  elftool
@@ -47,7 +47,7 @@ jobs:
 
       - run: tar xf xxd-*.tar.xz --strip-components=1
 
-      - run:  ./elftool print-interpreter bin/xxd
+      - run:  ./elftool print-interp bin/xxd
       - run:  ./elftool print-soname bin/xxd
       - run:  ./elftool print-needed bin/xxd
       - run:  ./elftool print-rpath  bin/xxd
@@ -59,7 +59,7 @@ jobs:
           do
             apt -y install gcc-$ARCH-linux-gnu
             $ARCH-linux-gnu-gcc -o elftool.$ARCH -Isrc src/*.c -Wl,-rpath,/usr/local/xxxxxx -Wl,-soname,libxx.so
-            ./elftool print-interpreter elftool.$ARCH
+            ./elftool print-interp elftool.$ARCH
             ./elftool print-soname elftool.$ARCH
             ./elftool print-needed elftool.$ARCH
             ./elftool print-rpath  elftool.$ARCH

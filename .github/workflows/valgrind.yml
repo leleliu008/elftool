@@ -32,7 +32,7 @@ jobs:
       - run:  $VALGRIND ./elftool -h
       - run:  $VALGRIND ./elftool -V
 
-      - run:  $VALGRIND ./elftool print-interpreter elftool
+      - run:  $VALGRIND ./elftool print-interp elftool
       - run:  $VALGRIND ./elftool print-soname elftool
       - run:  $VALGRIND ./elftool print-needed elftool
       - run:  $VALGRIND ./elftool print-rpath  elftool

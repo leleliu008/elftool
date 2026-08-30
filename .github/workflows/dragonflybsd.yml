@@ -40,7 +40,7 @@ jobs:
             run ./elftool -h
             run ./elftool -V
 
-            run ./elftool print-interpreter elftool
+            run ./elftool print-interp elftool
             run ./elftool print-soname elftool
             run ./elftool print-needed elftool
             run ./elftool print-rpath  elftool
