@@ -39,3 +39,12 @@ jobs:
       - run:  ./elftool print-soname elftool
       - run:  ./elftool print-needed elftool
       - run:  ./elftool print-rpath  elftool
+
+      - run: curl -LO https://github.com/leleliu008/ppkg-package-manually-build/releases/download/xxd-9.2.0750-linux-glibc-s390x.release.tar.xz/xxd-9.2.0750-linux-glibc-s390x.release.tar.xz
+
+      - run: tar xf xxd-*.tar.xz --strip-components=1
+
+      - run:  ./elftool print-interpreter bin/xxd
+      - run:  ./elftool print-soname bin/xxd
+      - run:  ./elftool print-needed bin/xxd
+      - run:  ./elftool print-rpath  bin/xxd
