@@ -27,81 +27,81 @@ run() {
 
 ###################################################
 
-__install_packages_via_syspm_on_debian() {
+__install_gcc_via_syspm_on_debian() {
     run $sudo apt-get -y update
-    run $sudo apt-get -y install gcc libelf-dev
+    run $sudo apt-get -y install gcc
 }
 
-__install_packages_via_syspm_on_ubuntu() {
+__install_gcc_via_syspm_on_ubuntu() {
     run $sudo apt-get -y update
-    run $sudo apt-get -y install gcc libelf-dev
+    run $sudo apt-get -y install gcc
 }
 
-__install_packages_via_syspm_on_linuxmint() {
+__install_gcc_via_syspm_on_linuxmint() {
     run $sudo apt-get -y update
-    run $sudo apt-get -y install gcc libelf-dev
+    run $sudo apt-get -y install gcc
 }
 
-__install_packages_via_syspm_on_openEuler() {
+__install_gcc_via_syspm_on_openEuler() {
     run $sudo dnf -y update
-    run $sudo dnf -y install gcc elfutils-libelf-devel
+    run $sudo dnf -y install gcc
 }
 
-__install_packages_via_syspm_on_rocky() {
+__install_gcc_via_syspm_on_rocky() {
     run $sudo dnf -y update
-    run $sudo dnf -y install gcc elfutils-libelf-devel
+    run $sudo dnf -y install gcc
 }
 
-__install_packages_via_syspm_on_almalinux() {
+__install_gcc_via_syspm_on_almalinux() {
     run $sudo dnf -y update
-    run $sudo dnf -y install gcc elfutils-libelf-devel
+    run $sudo dnf -y install gcc
 }
 
-__install_packages_via_syspm_on_centos() {
+__install_gcc_via_syspm_on_centos() {
     run $sudo dnf -y update
-    run $sudo dnf -y install gcc elfutils-libelf-devel
+    run $sudo dnf -y install gcc
 }
 
-__install_packages_via_syspm_on_fedora() {
+__install_gcc_via_syspm_on_fedora() {
     run $sudo dnf -y update
-    run $sudo dnf -y install gcc elfutils-libelf-devel
+    run $sudo dnf -y install gcc
 }
 
-__install_packages_via_syspm_on_rhel() {
+__install_gcc_via_syspm_on_rhel() {
 :
 }
 
-__install_packages_via_syspm_on_opensuse() {
+__install_gcc_via_syspm_on_opensuse() {
     run $sudo zypper update  -y
-    run $sudo zypper install -y gcc libelf-devel
+    run $sudo zypper install -y gcc
 }
 
-__install_packages_via_syspm_on_gentoo() {
-    run $sudo emerge dev-libs/libelf
+__install_gcc_via_syspm_on_gentoo() {
+    :
 }
 
-__install_packages_via_syspm_on_manjaro() {
+__install_gcc_via_syspm_on_manjaro() {
     run $sudo pacman -Syyuu --noconfirm
-    run $sudo pacman -S     --noconfirm gcc libelf
+    run $sudo pacman -S     --noconfirm gcc
 }
 
-__install_packages_via_syspm_on_arch() {
+__install_gcc_via_syspm_on_arch() {
     run $sudo pacman -Syyuu --noconfirm
-    run $sudo pacman -S     --noconfirm gcc libelf
+    run $sudo pacman -S     --noconfirm gcc
 }
 
-__install_packages_via_syspm_on_void() {
+__install_gcc_via_syspm_on_void() {
     run $sudo xbps-install -Syu xbps
     run $sudo xbps-install -S
     run $sudo xbps-install -Syu gcc elfutils-devel
 }
 
-__install_packages_via_syspm_on_alpine() {
+__install_gcc_via_syspm_on_alpine() {
     run $sudo apk update
     run $sudo apk add gcc libc-dev elfutils-dev
 }
 
-__install_packages_via_syspm_on_Linux() {
+__install_gcc_via_syspm_on_Linux() {
     if [ -f /etc/os-release ] ; then
         .   /etc/os-release
 
@@ -109,52 +109,52 @@ __install_packages_via_syspm_on_Linux() {
             opensuse-*) ID=opensuse
         esac
 
-        __install_packages_via_syspm_on_$ID
+        __install_gcc_via_syspm_on_$ID
     fi
 }
 
-__install_packages_via_syspm_on_MidnightBSD() {
+__install_gcc_via_syspm_on_MidnightBSD() {
     run $sudo mport index
-    run $sudo mport install libelf || true
+    run $sudo mport install gcc || true
 }
 
-__install_packages_via_syspm_on_DragonFly() {
-    #run $sudo pkg update
-    run $sudo pkg install -y libelf
+__install_gcc_via_syspm_on_DragonFly() {
+    run $sudo pkg update
+    run $sudo pkg install -y gcc
 }
 
-__install_packages_via_syspm_on_FreeBSD() {
-    #run $sudo pkg update
-    run $sudo pkg install -y libelf
+__install_gcc_via_syspm_on_FreeBSD() {
+    run $sudo pkg update
+    run $sudo pkg install -y gcc
 }
 
-__install_packages_via_syspm_on_OpenBSD() {
-    run $sudo pkg_add libelf
+__install_gcc_via_syspm_on_OpenBSD() {
+    run $sudo pkg_add gcc
 }
 
-__install_packages_via_syspm_on_NetBSD() {
-    run $sudo pkgin -y install libelf
+__install_gcc_via_syspm_on_NetBSD() {
+    run $sudo pkgin -y install gcc
 }
 
-__install_packages_via_syspm_on_SunOS() {
+__install_gcc_via_syspm_on_SunOS() {
     [ -n "$sudo" ] && sudo=pfexec
 
     run $sudo pkg refresh
     run $sudo pkg install gcc14
 }
 
-__install_packages_via_syspm_on_Darwin() {
+__install_gcc_via_syspm_on_Darwin() {
     if command -v brew > /dev/null ; then
         run brew update
-        run brew install libelf
+        run brew install llvm
     else
         abort 1 'command not found: brew'
     fi
 }
 
-__install_packages_via_syspm_on_Haiku() {
+__install_gcc_via_syspm_on_Haiku() {
     run $sudo pkgman refresh
-    run $sudo pkgman install -y gcc libelf
+    run $sudo pkgman install -y gcc
 }
 
 ###################################################
@@ -171,7 +171,7 @@ unset sudo
 
 ###################################################
 
-__install_packages_via_syspm_on_$NATIVE_PLATFORM_TYPE
+CC="$(command -v gcc || command -v clang || command -v cc)" || __install_gcc_via_syspm_on_$NATIVE_PLATFORM_TYPE
 
 CC="$(command -v gcc || command -v clang || command -v cc)" || abort 1 "No C Compiler found. tried gcc, clang, cc"
 
@@ -179,11 +179,4 @@ CC="$(command -v gcc || command -v clang || command -v cc)" || abort 1 "No C Com
 
 [ -z "$*" ] && set -- -std=gnu99 -Os -flto -Wl,-s -o elftool
 
-TARGET_TRIPLE="$($CC -dumpmachine)"
-
-case $TARGET_TRIPLE in
-    darwin)
-        run exec "$CC" src/*.c src/gelf/*.c -lelf "$@"
-        ;;
-    *)  run exec "$CC" src/*.c src/_elf/*.c -Isrc "$@"
-esac
+run exec "$CC" src/*.c -Isrc "$@"

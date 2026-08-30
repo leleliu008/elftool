@@ -24,9 +24,15 @@ ndk-pkg install elftool
 
 `./build.sh` accepts any compiler options. If no compiler options are given, `-std=gnu99 -Os -flto -Wl,-s -o elftool` will be passed to the C Compiler.
 
-`./build.sh` will install [gcc](https://gcc.gnu.org/) and [libelf](https://github.com/Distrotech/libelf) via your system's package manager.
+`./build.sh` will install [gcc](https://gcc.gnu.org/) via your system's package manager if no C Compiler found.
 
-`./build.sh` has handled these operating systems: [Debian GNU/Linux](https://www.debian.org/), [Ubuntu](https://ubuntu.com/), [LinuxMint](https://linuxmint.com/), [Fedora](https://getfedora.org/), [CentOS](https://www.centos.org/), [Rocky Linux](https://rockylinux.org/), [AlmaLinux](https://almalinux.org/), [ArchLinux](https://archlinux.org/), [Manjaro Linux](https://manjaro.org/), [AlpineLinux](https://www.alpinelinux.org/), [VoidLinux](https://voidlinux.org/), [Gentoo Linux](https://www.gentoo.org/), [openSUSE](https://www.opensuse.org/), [openEuler](https://www.openeuler.org/), [MidnightBSD](https://www.midnightbsd.org/), [DragonFly BSD](https://www.dragonflybsd.org/), [FreeBSD](https://www.freebsd.org/), [OpenBSD](https://www.openbsd.org/), [NetBSD](https://www.netbsd.org/), [OmniOS](https://omnios.org/), macOS + [HomeBrew](https://brew.sh/)
+## Build elftool using C Compiler directly
+
+```bash
+cc -o elftool -Isrc src/*.c
+```
+
+**Note:** This tool use `elf.h`, most systems have it. If your system den't have it, you can get it from <https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h;hb=HEAD> and put it in `src` directory.
 
 ## elftool command usage
 
