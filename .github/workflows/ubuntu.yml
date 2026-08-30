@@ -40,6 +40,9 @@ jobs:
       - run:  ./elftool print-needed elftool
       - run:  ./elftool print-rpath  elftool
 
+      - run: apt -y update
+      - run: apt -y install curl
+
       - run: curl -LO https://github.com/leleliu008/ppkg-package-manually-build/releases/download/xxd-9.2.0750-linux-glibc-s390x.release.tar.xz/xxd-9.2.0750-linux-glibc-s390x.release.tar.xz
 
       - run: tar xf xxd-*.tar.xz --strip-components=1

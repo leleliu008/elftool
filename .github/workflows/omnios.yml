@@ -18,6 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - run: curl -L -o src/elf.h 'https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h;hb=HEAD'
+
       - uses: cross-platform-actions/action@master
         with:
           operating_system: omnios
