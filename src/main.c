@@ -7,11 +7,9 @@
 #define ELFTOOL_VERSION_STRING "1.0.0"
 #endif
 
-typedef int (*action)(const char * fp);
-
 typedef struct {
     const char * arg;
-    const action fn;
+    int (*fn)(const char * fp);
 } Action;
 
 int main(int argc, char* argv[]) {
@@ -50,18 +48,22 @@ int main(int argc, char* argv[]) {
             return ELFTOOL_ERROR_ARG_IS_UNKNOWN;
         }
 
-        if (strcmp(argv[1], actions[i].arg) == 0) {
-            if (argv[2] == NULL) {
-                fprintf(stderr, "Usage : %s %s <FILEPATH>, <FILEPATH> is unspecified.\n", argv[0], argv[1]);
-                return ELFTOOL_ERROR_ARG_IS_NULL;
-            }
-
-            if (argv[2][0] == '\0') {
-                fprintf(stderr, "Usage : %s %s <FILEPATH>, <FILEPATH> should be a non-empty string.\n", argv[0], argv[1]);
-                return ELFTOOL_ERROR_ARG_IS_EMPTY;
-            }
-
-            return actions[i].fn(argv[2]);
+        if (strcmp(argv[1], actions[i].arg) != 0) {
+            continue;
         }
+
+        const char * fp = argv[2];
+
+        if (fp == NULL) {
+            fprintf(stderr, "Usage : %s %s <FILEPATH>, <FILEPATH> is unspecified.\n", argv[0], argv[1]);
+            return ELFTOOL_ERROR_ARG_IS_NULL;
+        }
+
+        if (fp[0] == '\0') {
+            fprintf(stderr, "Usage : %s %s <FILEPATH>, <FILEPATH> should be a non-empty string.\n", argv[0], argv[1]);
+            return ELFTOOL_ERROR_ARG_IS_EMPTY;
+        }
+
+        return actions[i].fn(fp);
     }
 }
