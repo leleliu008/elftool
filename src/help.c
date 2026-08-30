@@ -2,6 +2,8 @@
 
 #include <unistd.h>
 
+#include "elftool.h"
+
 #define COLOR_GREEN  "\033[0;32m"
 #define COLOR_OFF    "\033[0m"
 

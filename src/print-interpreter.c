@@ -11,7 +11,7 @@
 
 #include <elf.h>
 
-#include <elftool.h>
+#include "elftool.h"
 
 static int handle_elf32(unsigned char * const elf) {
     Elf32_Ehdr * ehdr = (Elf32_Ehdr *)elf;

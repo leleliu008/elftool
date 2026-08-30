@@ -7,11 +7,11 @@
 #define ELFTOOL_VERSION_STRING "1.0.0"
 #endif
 
-typedef int (*fn)(const char * fp);
+typedef int (*action)(const char * fp);
 
 typedef struct {
     const char * arg;
-    const fn func;
+    const action fn;
 } Action;
 
 int main(int argc, char* argv[]) {
@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
                 return ELFTOOL_ERROR_ARG_IS_EMPTY;
             }
 
-            return actions[i].func(argv[2]);
+            return actions[i].fn(argv[2]);
         }
     }
 }
