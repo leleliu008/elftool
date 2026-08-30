@@ -185,5 +185,5 @@ case $TARGET_TRIPLE in
     darwin)
         run exec "$CC" src/*.c src/gelf/*.c -lelf "$@"
         ;;
-    *)  run exec "$CC" src/*.c src/_elf/*.c "$@"
+    *)  run exec "$CC" src/*.c src/_elf/*.c -Isrc "$@"
 esac

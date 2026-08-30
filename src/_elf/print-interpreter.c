@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <stdint.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -10,9 +11,9 @@
 
 #include <elf.h>
 
-#include "../elftool.h"
+#include <elftool.h>
 
-int handle_elf32(unsigned char * const elf) {
+static int handle_elf32(unsigned char * const elf) {
     Elf32_Ehdr * ehdr = (Elf32_Ehdr *)elf;
 
     Elf32_Phdr * phdr;
@@ -28,7 +29,27 @@ int handle_elf32(unsigned char * const elf) {
     return 0;
 }
 
-int handle_elf64(unsigned char * const elf) {
+static int handle_elf32_swap(unsigned char * const elf) {
+    Elf32_Ehdr * ehdr = (Elf32_Ehdr *)elf;
+
+    Elf32_Phdr * phdr;
+
+    uint16_t phnum = __builtin_bswap16(ehdr->e_phnum);
+    uint32_t phoff = __builtin_bswap32(ehdr->e_phoff);
+    uint16_t phentsize = __builtin_bswap16(ehdr->e_phentsize);
+
+    for (uint16_t i = 0; i < phnum; i++) {
+        phdr = (Elf32_Phdr *)(elf + phoff + i * phentsize);
+
+        if (__builtin_bswap32(phdr->p_type) == PT_INTERP) {
+            puts((char*)(elf + __builtin_bswap32(phdr->p_offset)));
+        }
+    }
+
+    return 0;
+}
+
+static int handle_elf64(unsigned char * const elf) {
     Elf64_Ehdr * ehdr = (Elf64_Ehdr *)elf;
 
     Elf64_Phdr * phdr;
@@ -43,6 +64,27 @@ int handle_elf64(unsigned char * const elf) {
 
     return 0;
 }
+
+static int handle_elf64_swap(unsigned char * const elf) {
+    Elf64_Ehdr * ehdr = (Elf64_Ehdr *)elf;
+
+    Elf64_Phdr * phdr;
+
+    uint16_t phnum = __builtin_bswap16(ehdr->e_phnum);
+    uint64_t phoff = __builtin_bswap64(ehdr->e_phoff);
+    uint16_t phentsize = __builtin_bswap16(ehdr->e_phentsize);
+
+    for (uint16_t i = 0; i < phnum; i++) {
+        phdr = (Elf64_Phdr *)(elf + phoff + i * phentsize);
+
+        if (__builtin_bswap32(phdr->p_type) == PT_INTERP) {
+            puts((char*)(elf + __builtin_bswap64(phdr->p_offset)));
+        }
+    }
+
+    return 0;
+}
+
 
 int elftool_print_interpreter(const char * fp) {
     int fd = open(fp, O_RDONLY);
@@ -68,9 +110,9 @@ int elftool_print_interpreter(const char * fp) {
 
     ///////////////////////////////////////////////////////////
 
-    unsigned char a[5];
+    unsigned char a[6];
 
-    ssize_t readBytes = read(fd, a, 5);
+    ssize_t readBytes = read(fd, a, 6);
 
     if (readBytes == -1) {
         perror(fp);
@@ -78,7 +120,7 @@ int elftool_print_interpreter(const char * fp) {
         return 5;
     }
 
-    if (readBytes != 5) {
+    if (readBytes != 6) {
         perror(fp);
         close(fd);
         fprintf(stderr, "not fully read.\n");
@@ -92,6 +134,26 @@ int elftool_print_interpreter(const char * fp) {
         fprintf(stderr, "NOT an ELF file: %s\n", fp);
         close(fd);
         return 100;
+    }
+
+    ///////////////////////////////////////////////////////////
+
+    int swap = 0;
+
+    switch (a[5]) {
+        case ELFDATA2LSB:
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+            swap = 1;
+#endif
+            break;
+        case ELFDATA2MSB:
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+            swap = 1;
+#endif
+            break;
+        default:
+            fprintf(stderr, "Invalid ELF file: %s\n", fp);
+            return 101;
     }
 
     ///////////////////////////////////////////////////////////
@@ -111,8 +173,20 @@ int elftool_print_interpreter(const char * fp) {
     int ret;
 
     switch (a[4]) {
-        case ELFCLASS32: ret = handle_elf32(p); break;
-        case ELFCLASS64: ret = handle_elf64(p); break;
+        case ELFCLASS32:
+            if (swap == 0) {
+                ret = handle_elf32(p);
+            } else {
+                ret = handle_elf32_swap(p);
+            }
+            break;
+        case ELFCLASS64:
+            if (swap == 0) {
+                ret = handle_elf64(p);
+            } else {
+                ret = handle_elf64_swap(p);
+            }
+            break;
         default: 
             fprintf(stderr, "Invalid ELF file: %s\n", fp);
             ret = 101;

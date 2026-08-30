@@ -19,7 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
-      - run:  ./build.sh -o elftool -Os -flto -Wl,-s -I "$(brew --prefix libelf)/include" -I "$(brew --prefix libelf)/include/libelf" -L "$(brew --prefix libelf)/lib"
+      - run: curl -L -o src/elf.h 'https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h;hb=HEAD'
+
+      - run:  cc -o elftool -Os -flto -Wl,-S src/*.c src/_elf/*.c -Isrc
 
       - run:  ./elftool
 
@@ -47,12 +49,16 @@ jobs:
 
     steps:
       - run:  brew update
-      - run:  brew install libelf llvm
+      - run:  brew install llvm
 
       - uses: actions/checkout@main
 
-      - run:  |
-          "$(brew --prefix llvm)/bin/clang" src/*.c -o elftool -g -lelf -I "$(brew --prefix libelf)/include" -I "$(brew --prefix libelf)/include/libelf" -L "$(brew --prefix libelf)/lib"
+      - run: curl -L -o src/elf.h 'https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h;hb=HEAD'
+
+      - id: cc
+        run: printf 'CC=%s\n' "$(brew --prefix llvm)/bin/clang" >> "$GITHUB_OUTPUT"
+
+      - run: ${{ steps.cc.outputs.CC }} -std=gnu99 -O0 -g -fsanitize=undefined -fsanitize=address -fsanitize=leak -o elftool src/*.c src/_elf/*.c -Isrc
 
       - run:  ./elftool
 
