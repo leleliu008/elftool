@@ -68,7 +68,8 @@ __install_gcc_via_syspm_on_fedora() {
 }
 
 __install_gcc_via_syspm_on_rhel() {
-:
+    run $sudo dnf -y update
+    run $sudo dnf -y install gcc
 }
 
 __install_gcc_via_syspm_on_opensuse() {
@@ -147,8 +148,6 @@ __install_gcc_via_syspm_on_Darwin() {
     if command -v brew > /dev/null ; then
         run brew update
         run brew install llvm
-    else
-        abort 1 'command not found: brew'
     fi
 }
 

@@ -32,7 +32,7 @@ ndk-pkg install elftool
 cc -o elftool -Isrc src/*.c
 ```
 
-**Note:** This tool use `elf.h`, most systems have it. If your system den't have it, you can get it from <https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h;hb=HEAD> and put it in `src` directory.
+**Note:** This tool use `elf.h`, most systems have it. If your system does NOT have it, you can get it from <https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=elf/elf.h;hb=HEAD> and put it in `src` directory.
 
 ## elftool command usage
 

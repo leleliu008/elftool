@@ -51,3 +51,16 @@ jobs:
       - run:  ./elftool print-soname bin/xxd
       - run:  ./elftool print-needed bin/xxd
       - run:  ./elftool print-rpath  bin/xxd
+
+      - run: |
+          set -ex
+
+          for ARCH in loongarch64 aarch64 riscv64 s390x
+          do
+            apt -y install gcc-$ARCH-linux-gnu
+            $ARCH-linux-gnu-gcc -o elftool.$ARCH -Isrc src/*.c -Wl,-rpath,/usr/local/xxxxxx -Wl,-soname,libxx.so
+            ./elftool print-interpreter elftool.$ARCH
+            ./elftool print-soname elftool.$ARCH
+            ./elftool print-needed elftool.$ARCH
+            ./elftool print-rpath  elftool.$ARCH
+          done
