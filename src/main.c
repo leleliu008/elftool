@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <stdint.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -103,7 +102,7 @@ int main(int argc, char* argv[]) {
 
         if (fd == -1) {
             perror(fp);
-            return 3;
+            return ELFTOOL_ERROR;
         }
 
         struct stat st;
@@ -111,13 +110,13 @@ int main(int argc, char* argv[]) {
         if (fstat(fd, &st) == -1) {
             perror(fp);
             close(fd);
-            return 4;
+            return ELFTOOL_ERROR;
         }
 
         if (st.st_size < 52) {
             fprintf(stderr, "NOT an ELF file: %s\n", fp);
             close(fd);
-            return 100;
+            return ELFTOOL_ERROR_NOT_ELF_FILE;
         }
 
         ///////////////////////////////////////////////////////////
@@ -129,14 +128,14 @@ int main(int argc, char* argv[]) {
         if (readBytes == -1) {
             perror(fp);
             close(fd);
-            return 5;
+            return ELFTOOL_ERROR;
         }
 
         if (readBytes != 6) {
             perror(fp);
             close(fd);
             fprintf(stderr, "not fully read.\n");
-            return 6;
+            return ELFTOOL_ERROR;
         }
 
         ///////////////////////////////////////////////////////////
@@ -145,7 +144,7 @@ int main(int argc, char* argv[]) {
         if ((a[0] != 0x7F) || (a[1] != 0x45) || (a[2] != 0x4C) || (a[3] != 0x46)) {
             fprintf(stderr, "NOT an ELF file: %s\n", fp);
             close(fd);
-            return 100;
+            return ELFTOOL_ERROR_NOT_ELF_FILE;
         }
 
         ///////////////////////////////////////////////////////////
@@ -165,17 +164,17 @@ int main(int argc, char* argv[]) {
                 break;
             default:
                 fprintf(stderr, "Invalid ELF file: %s\n", fp);
-                return 101;
+                return ELFTOOL_ERROR_BROKEN_ELF_FILE;
         }
 
         ///////////////////////////////////////////////////////////
 
         void * p = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-         
+
         if (p == MAP_FAILED) {
             perror(fp);
             close(fd);
-            return 200;
+            return ELFTOOL_ERROR;
         }
 
         ///////////////////////////////////////////////////////////
@@ -201,7 +200,7 @@ int main(int argc, char* argv[]) {
                 break;
             default: 
                 fprintf(stderr, "Invalid ELF file: %s\n", fp);
-                ret = 101;
+                ret = ELFTOOL_ERROR_BROKEN_ELF_FILE;
         }
 
         munmap(p, st.st_size);
