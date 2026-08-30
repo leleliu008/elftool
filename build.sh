@@ -93,12 +93,12 @@ __install_gcc_via_syspm_on_arch() {
 __install_gcc_via_syspm_on_void() {
     run $sudo xbps-install -Syu xbps
     run $sudo xbps-install -S
-    run $sudo xbps-install -Syu gcc elfutils-devel
+    run $sudo xbps-install -Syu gcc
 }
 
 __install_gcc_via_syspm_on_alpine() {
     run $sudo apk update
-    run $sudo apk add gcc libc-dev elfutils-dev
+    run $sudo apk add gcc libc-dev
 }
 
 __install_gcc_via_syspm_on_Linux() {

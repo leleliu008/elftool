@@ -23,6 +23,7 @@ static int handle_elf32(unsigned char * const elf) {
 
         if (phdr->p_type == PT_INTERP) {
             puts((char*)(elf + phdr->p_offset));
+            break;
         }
     }
 
@@ -43,6 +44,7 @@ static int handle_elf32_swap(unsigned char * const elf) {
 
         if (__builtin_bswap32(phdr->p_type) == PT_INTERP) {
             puts((char*)(elf + __builtin_bswap32(phdr->p_offset)));
+            break;
         }
     }
 
@@ -59,6 +61,7 @@ static int handle_elf64(unsigned char * const elf) {
 
         if (phdr->p_type == PT_INTERP) {
             puts((char*)(elf + phdr->p_offset));
+            break;
         }
     }
 
@@ -79,12 +82,12 @@ static int handle_elf64_swap(unsigned char * const elf) {
 
         if (__builtin_bswap32(phdr->p_type) == PT_INTERP) {
             puts((char*)(elf + __builtin_bswap64(phdr->p_offset)));
+            break;
         }
     }
 
     return 0;
 }
-
 
 int elftool_print_interpreter(const char * fp) {
     int fd = open(fp, O_RDONLY);

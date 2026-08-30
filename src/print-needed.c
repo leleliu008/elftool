@@ -92,7 +92,6 @@ static int handle_elf32(unsigned char * elf) {
     return 0;
 }
 
-
 static int handle_elf32_swap(unsigned char * elf) {
     Elf32_Ehdr * ehdr = (Elf32_Ehdr*)elf;
     Elf32_Phdr * phdr = NULL;
