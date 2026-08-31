@@ -79,6 +79,7 @@ int elftool_print_rpath_handle_elf32(const unsigned char * elf) {
 
         if (dyn->d_tag == DT_RUNPATH) {
             puts(dynstr + dyn->d_un.d_val);
+            break;
         }
     }
 
@@ -167,6 +168,7 @@ int elftool_print_rpath_handle_elf32_swap(const unsigned char * elf) {
 
         if (tag == DT_RUNPATH) {
             puts(dynstr + __builtin_bswap32(dyn->d_un.d_val));
+            break;
         }
     }
 
@@ -247,6 +249,7 @@ int elftool_print_rpath_handle_elf64(const unsigned char * elf) {
 
         if (dyn->d_tag == DT_RUNPATH) {
             puts(dynstr + dyn->d_un.d_val);
+            break;
         }
     }
 
@@ -335,6 +338,7 @@ int elftool_print_rpath_handle_elf64_swap(const unsigned char * elf) {
 
         if (tag == DT_RUNPATH) {
             puts(dynstr + __builtin_bswap64(dyn->d_un.d_val));
+            break;
         }
     }
 
