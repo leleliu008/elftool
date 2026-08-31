@@ -7,12 +7,12 @@
 
 int elftool_print_needed_handle_elf32(const unsigned char * elf) {
     Elf32_Ehdr * ehdr = (Elf32_Ehdr*)elf;
-    Elf32_Phdr * phdr = NULL;
+    Elf32_Phdr * phdr;
 
     int hasDynamic = 0;
 
     for (Elf32_Half i = 0; i < ehdr->e_phnum; i++) {
-        phdr = (Elf32_Phdr *)(elf + ehdr->e_phoff + i * ehdr->e_phentsize);
+        phdr = (Elf32_Phdr*)(elf + ehdr->e_phoff + i * ehdr->e_phentsize);
 
         if (phdr->p_type == PT_DYNAMIC) {
             hasDynamic = 1;
@@ -48,17 +48,15 @@ int elftool_print_needed_handle_elf32(const unsigned char * elf) {
 
     const char * dynstr = NULL;
 
-    Elf32_Phdr * phdr2;
-
     for (Elf32_Half i = 0; i < ehdr->e_phnum; i++) {
-        phdr2 = (Elf32_Phdr*)(elf + ehdr->e_phoff + i * ehdr->e_phentsize);
+        Elf32_Phdr * phdr = (Elf32_Phdr*)(elf + ehdr->e_phoff + i * ehdr->e_phentsize);
 
-        if (phdr2->p_type == PT_LOAD) {
-            Elf32_Addr a = phdr2->p_vaddr;
-            Elf32_Addr b = phdr2->p_memsz + a;
+        if (phdr->p_type == PT_LOAD) {
+            Elf32_Addr a = phdr->p_vaddr;
+            Elf32_Addr b = phdr->p_memsz + a;
 
             if (addr >= a && addr < b) {
-                dynstr = (const char *)elf + phdr2->p_offset + (addr - a);
+                dynstr = (const char *)elf + phdr->p_offset + (addr - a);
                 break;
             }
         }
@@ -87,7 +85,7 @@ int elftool_print_needed_handle_elf32(const unsigned char * elf) {
 
 int elftool_print_needed_handle_elf32_swap(const unsigned char * elf) {
     Elf32_Ehdr * ehdr = (Elf32_Ehdr*)elf;
-    Elf32_Phdr * phdr = NULL;
+    Elf32_Phdr * phdr;
 
     int hasDynamic = 0;
 
@@ -96,7 +94,7 @@ int elftool_print_needed_handle_elf32_swap(const unsigned char * elf) {
     uint16_t phentsize = __builtin_bswap16(ehdr->e_phentsize);
 
     for (uint16_t i = 0; i < phnum; i++) {
-        phdr = (Elf32_Phdr *)(elf + phoff + i * phentsize);
+        phdr = (Elf32_Phdr*)(elf + phoff + i * phentsize);
 
         if (__builtin_bswap32(phdr->p_type) == PT_DYNAMIC) {
             hasDynamic = 1;
@@ -134,17 +132,15 @@ int elftool_print_needed_handle_elf32_swap(const unsigned char * elf) {
 
     const char * dynstr = NULL;
 
-    Elf32_Phdr * phdr2;
-
     for (uint16_t i = 0; i < phnum; i++) {
-        phdr2 = (Elf32_Phdr*)(elf + phoff + i * phentsize);
+        Elf32_Phdr * phdr = (Elf32_Phdr*)(elf + phoff + i * phentsize);
 
-        if (__builtin_bswap32(phdr2->p_type) == PT_LOAD) {
-            uint32_t a = __builtin_bswap32(phdr2->p_vaddr);
-            uint32_t b = __builtin_bswap32(phdr2->p_memsz) + a;
+        if (__builtin_bswap32(phdr->p_type) == PT_LOAD) {
+            uint32_t a = __builtin_bswap32(phdr->p_vaddr);
+            uint32_t b = __builtin_bswap32(phdr->p_memsz) + a;
 
             if (addr >= a && addr < b) {
-                dynstr = (const char *)elf + __builtin_bswap32(phdr2->p_offset) + (addr - a);
+                dynstr = (const char *)elf + __builtin_bswap32(phdr->p_offset) + (addr - a);
                 break;
             }
         }
@@ -175,12 +171,12 @@ int elftool_print_needed_handle_elf32_swap(const unsigned char * elf) {
 
 int elftool_print_needed_handle_elf64(const unsigned char * elf) {
     Elf64_Ehdr * ehdr = (Elf64_Ehdr*)elf;
-    Elf64_Phdr * phdr = NULL;
+    Elf64_Phdr * phdr;
 
     int hasDynamic = 0;
 
     for (Elf64_Half i = 0; i < ehdr->e_phnum; i++) {
-        phdr = (Elf64_Phdr *)(elf + ehdr->e_phoff + i * ehdr->e_phentsize);
+        phdr = (Elf64_Phdr*)(elf + ehdr->e_phoff + i * ehdr->e_phentsize);
 
         if (phdr->p_type == PT_DYNAMIC) {
             hasDynamic = 1;
@@ -216,17 +212,15 @@ int elftool_print_needed_handle_elf64(const unsigned char * elf) {
 
     const char * dynstr = NULL;
 
-    Elf64_Phdr * phdr2;
-
     for (Elf64_Half i = 0; i < ehdr->e_phnum; i++) {
-        phdr2 = (Elf64_Phdr*)(elf + ehdr->e_phoff + i * ehdr->e_phentsize);
+        Elf64_Phdr * phdr = (Elf64_Phdr*)(elf + ehdr->e_phoff + i * ehdr->e_phentsize);
 
-        if (phdr2->p_type == PT_LOAD) {
-            Elf64_Addr a = phdr2->p_vaddr;
-            Elf64_Addr b = phdr2->p_memsz + a;
+        if (phdr->p_type == PT_LOAD) {
+            Elf64_Addr a = phdr->p_vaddr;
+            Elf64_Addr b = phdr->p_memsz + a;
 
             if (addr >= a && addr < b) {
-                dynstr = (const char *)elf + phdr2->p_offset + (addr - a);
+                dynstr = (const char *)elf + phdr->p_offset + (addr - a);
                 break;
             }
         }
@@ -255,7 +249,7 @@ int elftool_print_needed_handle_elf64(const unsigned char * elf) {
 
 int elftool_print_needed_handle_elf64_swap(const unsigned char * elf) {
     Elf64_Ehdr * ehdr = (Elf64_Ehdr*)elf;
-    Elf64_Phdr * phdr = NULL;
+    Elf64_Phdr * phdr;
 
     int hasDynamic = 0;
 
@@ -264,7 +258,7 @@ int elftool_print_needed_handle_elf64_swap(const unsigned char * elf) {
     uint16_t phentsize = __builtin_bswap16(ehdr->e_phentsize);
 
     for (uint16_t i = 0; i < phnum; i++) {
-        phdr = (Elf64_Phdr *)(elf + phoff + i * phentsize);
+        phdr = (Elf64_Phdr*)(elf + phoff + i * phentsize);
 
         if (__builtin_bswap32(phdr->p_type) == PT_DYNAMIC) {
             hasDynamic = 1;
@@ -302,17 +296,15 @@ int elftool_print_needed_handle_elf64_swap(const unsigned char * elf) {
 
     const char * dynstr = NULL;
 
-    Elf64_Phdr * phdr2;
-
     for (uint16_t i = 0; i < phnum; i++) {
-        phdr2 = (Elf64_Phdr*)(elf + phoff + i * phentsize);
+        Elf64_Phdr * phdr = (Elf64_Phdr*)(elf + phoff + i * phentsize);
 
-        if (__builtin_bswap32(phdr2->p_type) == PT_LOAD) {
-            Elf64_Addr a = __builtin_bswap64(phdr2->p_vaddr);
-            Elf64_Addr b = __builtin_bswap64(phdr2->p_memsz) + a;
+        if (__builtin_bswap32(phdr->p_type) == PT_LOAD) {
+            Elf64_Addr a = __builtin_bswap64(phdr->p_vaddr);
+            Elf64_Addr b = __builtin_bswap64(phdr->p_memsz) + a;
 
             if (addr >= a && addr < b) {
-                dynstr = (const char *)elf + __builtin_bswap64(phdr2->p_offset) + (addr - a);
+                dynstr = (const char *)elf + __builtin_bswap64(phdr->p_offset) + (addr - a);
                 break;
             }
         }
